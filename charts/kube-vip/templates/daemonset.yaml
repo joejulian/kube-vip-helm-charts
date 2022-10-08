@@ -20,6 +20,12 @@ spec:
           - name: vip_address
             value: {{ required "A valid config.address required!" .Values.config.address}}
           {{- end }}
+          {{- if eq .Values.env.bgp_enable "true" }}
+          - name: bgp_routerid
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          {{- end }}
         {{- with .Values.env }}
           {{- range $k, $v := . }}
             {{- $name := $k }}
